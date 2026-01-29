@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>GitHub Activity</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Helvetica, Arial, sans-serif;
+            background: #f3f2ef;
+            color: #1d2226;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 40px auto;
+            padding: 0 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0a66c2;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+
+        .action {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #0a66c2;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .text {
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: #5e6c79;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>GitHub Activity</h1>
+    <div id="feed"></div>
+</div>
+
+<script>
+async function loadEvents() {
+    const res = await fetch("/events");
+    const events = await res.json();
+
+    const feed = document.getElementById("feed");
+    feed.innerHTML = "";
+
+    events.forEach(e => {
+        let message = "";
+
+        if (e.action === "push") {
+            message = `${e.author} pushed to ${e.to_branch}`;
+        } else if (e.action === "pull_request") {
+            message = `${e.author} submitted a pull request from ${e.from_branch} to ${e.to_branch}`;
+        } else if (e.action === "merge") {
+            message = `${e.author} merged branch ${e.from_branch} to ${e.to_branch}`;
+        }
+
+        const div = document.createElement("div");
+        div.className = "card";
+
+        div.innerHTML = `
+            <div class="action">${e.action}</div>
+            <div class="text">${message}</div>
+            <div class="meta">on ${e.timestamp}</div>
+        `;
+
+        feed.appendChild(div);
+    });
+}
+
+// Initial load
+loadEvents();
+
+// Poll every 15 seconds 
+setInterval(loadEvents, 15000);
+</script>
+
+</body>
+</html>
