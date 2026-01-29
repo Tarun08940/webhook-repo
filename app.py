@@ -5,7 +5,8 @@ from datetime import datetime, timezone
 app = Flask(__name__)
 
 # MongoDB Atlas connection
-MONGO_URI = "mongodb+srv://taruht08_db_user:ZTZgIUloDREhkQjU@cluster0.fl3bewr.mongodb.net/?retryWrites=true&w=majority"
+import os
+MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
 db = client["github_events"]
 events = db["events"]
