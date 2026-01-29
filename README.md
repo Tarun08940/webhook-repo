@@ -52,7 +52,9 @@ The UI displays events in the following formats:
 
 `js
 setInterval(loadEvents, 15000);
-Tech Stack
+
+
+## Tech Stack
 
 Backend: Python, Flask
 
@@ -83,7 +85,8 @@ The application runs at:
 
 http://127.0.0.1:5000
 ---
-Notes
+
+## Notes
 
 Webhooks were tested locally using ngrok
 
