@@ -50,7 +50,7 @@ The UI displays events in the following formats:
 - Polling interval: **every 15 seconds**
 - Displays the **latest events first**
 
-```js
+`js
 setInterval(loadEvents, 15000);
 Tech Stack
 
